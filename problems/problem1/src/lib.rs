@@ -1,3 +1,4 @@
+#![cfg(test)]
 use itertools::Itertools;
 
 static SAMPLE: &str = include_str!("../input.sample");
@@ -28,7 +29,7 @@ mod tests {
     #[test]
     fn problem1_part1_sample() {
         let values: Vec<_> = SAMPLE
-            .split("\n")
+            .split('\n')
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
         assert_eq!(solve_part1(values), 7);
@@ -37,7 +38,7 @@ mod tests {
     #[test]
     fn problem1_part1_problem() {
         let values: Vec<_> = PROBLEM
-            .split("\n")
+            .split('\n')
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
         panic!("answer: {}", solve_part1(values));
@@ -46,7 +47,7 @@ mod tests {
     #[test]
     fn problem1_part2_sample() {
         let values: Vec<_> = SAMPLE
-            .split("\n")
+            .split('\n')
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
         assert_eq!(solve_part2(values), 5);
@@ -55,7 +56,7 @@ mod tests {
     #[test]
     fn problem1_part2_problem() {
         let values: Vec<_> = PROBLEM
-            .split("\n")
+            .split('\n')
             .filter_map(|s| s.parse::<i32>().ok())
             .collect();
         panic!("answer: {}", solve_part2(values));
