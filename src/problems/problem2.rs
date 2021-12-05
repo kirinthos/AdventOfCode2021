@@ -1,8 +1,9 @@
-use framework::Problem;
+use crate::framework::Problem;
 use std::fs::File;
 use std::io;
 
 pub struct Problem2 {}
+
 impl Problem for Problem2 {
     type Output = u64;
 

@@ -2,15 +2,27 @@
 use std::collections::HashMap;
 
 use clap::{App, Arg};
-use framework::{read_lines, Problem};
 use once_cell::sync::Lazy;
-use problem2::Problem2;
-use problem3::Problem3;
 
-const DATA_DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/../data");
-// TODO: problem map
-#[allow(dead_code)]
-static PROBLEM_MAP: Lazy<HashMap<u32, u32>> = Lazy::new(HashMap::new);
+pub mod framework;
+pub mod problems;
+pub mod util;
+
+use crate::framework::*;
+use crate::problems::*;
+
+const DATA_DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/data");
+static PROBLEM_MAP: Lazy<HashMap<u32, ProblemType>> = Lazy::new(|| {
+    // TODO: include problem 1
+    (2_u32..)
+        .zip(std::array::IntoIter::new([
+            ProblemType::NonNegative(Box::new(Problem2 {})),
+            ProblemType::NonNegative(Box::new(Problem3 {})),
+            ProblemType::NonNegative(Box::new(Problem4 {})),
+            ProblemType::NonNegative(Box::new(Problem5 {})),
+        ]))
+        .collect()
+});
 
 fn main() {
     let matches = App::new("Advent of Code 2021 Solver")
@@ -42,14 +54,18 @@ fn main() {
 
     let part = matches.is_present("part");
 
-    /*let problem = PROBLEM_MAP
+    let problem = PROBLEM_MAP
         .get(&problem_number)
         .expect("pick a valid problem number!");
-    */
-    let problem = Problem3 {};
 
-    let sample = read_lines(format!("{}/sample.{}", DATA_DIR, problem_number)).unwrap();
-    let input = read_lines(format!("{}/input.{}", DATA_DIR, problem_number)).unwrap();
+    let problem = match problem {
+        ProblemType::NonNegative(problem) => problem,
+    };
+
+    let sample_path = format!("{}/sample.{}", DATA_DIR, problem_number);
+    let input_path = format!("{}/input.{}", DATA_DIR, problem_number);
+    let sample = read_lines(sample_path).unwrap();
+    let input = read_lines(input_path).unwrap();
 
     match part {
         false => {

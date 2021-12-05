@@ -1,8 +1,8 @@
 #![cfg(test)]
 use itertools::Itertools;
 
-static SAMPLE: &str = include_str!("../input.sample");
-static PROBLEM: &str = include_str!("../input.problem");
+static SAMPLE: &str = include_str!("../../data/sample.1");
+static PROBLEM: &str = include_str!("../../data/input.1");
 
 fn solve_part1(values: Vec<i32>) -> i32 {
     values

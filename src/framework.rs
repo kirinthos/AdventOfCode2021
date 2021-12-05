@@ -1,6 +1,10 @@
-use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
+pub use std::fs::File;
+pub use std::io::{self, BufRead};
+pub use std::path::Path;
+
+pub enum ProblemType {
+    NonNegative(Box<dyn Problem<Output = u64> + Send + Sync>),
+}
 
 pub trait Problem {
     type Output;

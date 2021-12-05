@@ -1,6 +1,10 @@
-use framework::Problem;
+use crate::framework::Problem;
 use std::fs::File;
 use std::io;
+
+// Note: i did this as lists because i'm so used to parsing things that way
+// but realistically this should just be a list of numbers and then we can
+// use masks to sum bits....
 
 struct BitCounts {
     bit_counts: Vec<u64>,
@@ -44,17 +48,14 @@ fn bit_list_to_u64(bits: Vec<u64>) -> u64 {
 
 fn part2(bits: Vec<Vec<u64>>, digit: usize, most_significant: bool) -> u64 {
     let l = (bits.len() as u64 + 1) / 2;
-    let digit_bits: Vec<u64> = bits
-        .iter()
-        .map(|b| *b.iter().skip(digit).next().unwrap())
-        .collect();
+    let digit_bits: Vec<u64> = bits.iter().map(|b| *b.get(digit).unwrap()).collect();
     let sum = digit_bits.iter().sum::<u64>();
     let check = sum >= l;
     let check = if !most_significant { !check } else { check } as u64;
     let mut remaining: Vec<Vec<_>> = bits
         .into_iter()
         .zip(digit_bits.into_iter())
-        .filter(|(bits, digit_bit)| *digit_bit == check)
+        .filter(|(_bits, digit_bit)| *digit_bit == check)
         .map(|p| p.0)
         .collect();
 
@@ -65,6 +66,7 @@ fn part2(bits: Vec<Vec<u64>>, digit: usize, most_significant: bool) -> u64 {
 }
 
 pub struct Problem3 {}
+
 impl Problem for Problem3 {
     type Output = u64;
 
