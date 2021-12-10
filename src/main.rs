@@ -23,6 +23,8 @@ static PROBLEM_MAP: Lazy<HashMap<u32, ProblemType>> = Lazy::new(|| {
             ProblemType::NonNegative(Box::new(Problem6 {})),
             ProblemType::NonNegative(Box::new(Problem7 {})),
             ProblemType::NonNegative(Box::new(Problem8 {})),
+            ProblemType::NonNegative(Box::new(Problem9 {})),
+            ProblemType::NonNegative(Box::new(Problem10 {})),
         ]))
         .collect()
 });
