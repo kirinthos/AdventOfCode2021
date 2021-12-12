@@ -5,23 +5,11 @@ use std::fs::File;
 use std::io;
 
 use crate::framework::Problem;
-
-fn get_neighbors(grid: &[Vec<u64>], x: usize, y: usize) -> impl Iterator<Item = (usize, usize)> {
-    const DIRS: [(i32, i32); 4] = [(-1, 0), (1, 0), (0, -1), (0, 1)];
-
-    let (x, y) = (x as i32, y as i32);
-    let (xl, yl) = (grid[0].len(), grid.len());
-    DIRS.iter().filter_map(move |(dx, dy)| {
-        TryInto::<usize>::try_into(y + dy)
-            .ok()
-            .and_then(|y| TryInto::<usize>::try_into(x + dx).ok().map(|x| (x, y)))
-            .and_then(|(x, y)| (x < xl && y < yl).then(|| (x, y)))
-    })
-}
+use crate::util::get_neighbors_4d;
 
 fn check_neighbors(grid: &[Vec<u64>], x: usize, y: usize) -> bool {
     let val = grid[y][x];
-    get_neighbors(grid, x, y).all(|(x, y)| grid[y][x] > val)
+    get_neighbors_4d(x, y, (grid[0].len(), grid.len())).all(|(x, y)| grid[y][x] > val)
 }
 
 pub struct Problem9 {}
@@ -84,7 +72,7 @@ impl Problem for Problem9 {
                 9 => {}
                 _ => {
                     v.push((x, y));
-                    let neighbors = get_neighbors(grid, x, y)
+                    let neighbors = get_neighbors_4d(x, y, (grid[0].len(), grid.len()))
                         .filter(|(x, y)| !visited[*y][*x])
                         .collect_vec(); // TODO: i don't want to collect his as a vec...
                     for (x, y) in neighbors {
