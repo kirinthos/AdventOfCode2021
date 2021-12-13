@@ -1,5 +1,15 @@
 use itertools::Itertools;
-use std::convert::TryInto;
+use std::hash::Hash;
+use std::{collections::HashSet, convert::TryInto};
+
+pub fn has_unique_elements<T, I>(mut iter: I) -> bool
+where
+    T: Hash + Eq,
+    I: Iterator<Item = T> + std::fmt::Debug,
+{
+    let mut set = HashSet::new();
+    iter.all(move |v| set.insert(v))
+}
 
 pub fn print_board<T: std::fmt::Display>(v: &[Vec<T>], separator: &str) {
     let p = v.iter().map(|row| row.iter().join(separator)).join("\n");
